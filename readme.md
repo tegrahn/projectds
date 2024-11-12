@@ -4,7 +4,8 @@
 ## Models & Datasets
 
 Tommy :  [Fall Detection with CNNs and Optical Flow](https://github.com/AdrianNunez/Fall-Detection-with-CNNs-and-Optical-Flow), RFDS dataset 
-Girgos : [DeepFall -- Non-invasive Fall Detection with Deep Spatio-Temporal Convolutional Autoencoders](https://paperswithcode.com/paper/deepfall-non-invasive-fall-detection-with)
+
+Giorgos : [DeepFall -- Non-invasive Fall Detection with Deep Spatio-Temporal Convolutional Autoencoders](https://paperswithcode.com/paper/deepfall-non-invasive-fall-detection-with)
 
 
 ## Running Models
