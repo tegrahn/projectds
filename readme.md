@@ -1,19 +1,28 @@
-# A framework for comprehensive comparison of video fall detection networks
-
+# Human Based Fall Detection
+Analysing differing clip lengths impact on model performance utilising multiple datasets and multiple models
 
 ## Models & Datasets
-
-Tommy :  [Fall Detection with CNNs and Optical Flow](https://github.com/AdrianNunez/Fall-Detection-with-CNNs-and-Optical-Flow), RFDS dataset 
-Girgos : [DeepFall -- Non-invasive Fall Detection with Deep Spatio-Temporal Convolutional Autoencoders](https://paperswithcode.com/paper/deepfall-non-invasive-fall-detection-with)
-
+### Generating Data
+- Download data from location file
+- Place in Data/{DATASET}/originals directory
+- Run jupyter notebook cells for corresponding model pipeline adjusting parameters as necessary
 
 ## Running Models
-- ADD INSTRUCTIONS FOR RUNNING MODELS
-- requirements, and then steps to run
+### MMAction2 Models
+- Install MMACTION2 framework and environment following https://mmaction2.readthedocs.io/en/latest/get_started/installation.html
+- Place config,slurm and data files in following directories
+    - _base_.py -> {mmaction2_root}/configs/_base_/
+    - UniformerV2 -> {mmaction2_root}/configs/recognition/uniformerv2/
+    - VideoMAEV2 -> {mmaction2_root}/configs/recogntion/videomaev2/
+    - Slurm files -> {mmaction2_root}/
+    - RFDS data -> {mmaction2_root}/data/rfds/
+    - HQFDS data -> {mmaction2_root}/data/hqfds/
+- Use slurm files/framework to run experiments
 
-## Generating Data
-- ADD INSTRUCTIONS FOR GENERATING DATA
-- links to data, requirements, steps to run pipelines
+### Optical Flow Neural Network
+- Set up python environment using environment.txt
+- Ensure dataset is correctly pointed to with root_dir parameter in train.py
+- Run train.py
 
 ## File Structure
 ### Data

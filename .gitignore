@@ -3,6 +3,7 @@
 
 /Data/RFDS/originals
 /Data/RFDS/OFCNN
-/Data/HQFS/originals
-/Data/URFD/originals
-/Models/Fall-Detection/Fall-Data
+/Data/RFDS/MMACTION
+/Data/HQDFS/originals
+/Data/HQDFS/MMACTION
+/Data/HQDFS/OFCNN

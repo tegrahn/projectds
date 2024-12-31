@@ -1,0 +1,1244 @@
+This job can be monitored from: https://grafana.c3se.chalmers.se/d/gpu-job/gpu-job?var-jobid=3343953&from=1735494880000
+12/29 18:54:48 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.8.20 (default, Oct  3 2024, 15:24:27) [GCC 11.2.0]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 1631104815
+    GPU 0: NVIDIA A40
+    CUDA_HOME: None
+    GCC: gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-20)
+    PyTorch: 2.4.1+cu121
+    PyTorch compiling details: PyTorch built with:
+  - GCC 9.3
+  - C++ Version: 201703
+  - Intel(R) oneAPI Math Kernel Library Version 2022.2-Product Build 20220804 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.4.2 (Git Hash 1137e04ec0b5251ca2b4400a4fd3c667ce843d67)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX512
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 90.1  (built against CUDA 12.4)
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=9.1.0, CXX_COMPILER=/opt/rh/devtoolset-9/root/usr/bin/c++, CXX_FLAGS= -D_GLIBCXX_USE_CXX11_ABI=0 -fabi-version=11 -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=pedantic -Wno-error=old-style-cast -Wno-missing-braces -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=2.4.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=1, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+
+    TorchVision: 0.19.1+cu121
+    OpenCV: 4.10.0
+    MMEngine: 0.10.5
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: 1631104815
+    diff_rank_seed: False
+    deterministic: False
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+12/29 18:54:48 - mmengine - INFO - Config:
+ann_file_test = 'data/rfds/25_validation.txt'
+ann_file_train = 'data/rfds/25_train.txt'
+ann_file_val = 'data/rfds/25_validation.txt'
+auto_scale_lr = dict(base_batch_size=256, enable=True)
+base_lr = 1e-05
+data_root = 'data/rfds/25_train'
+data_root_val = 'data/rfds/25_validation'
+dataset = 'rfds'
+dataset_type = 'VideoDataset'
+default_hooks = dict(
+    checkpoint=dict(
+        interval=3, max_keep_ckpts=5, save_best='auto', type='CheckpointHook'),
+    early_stopping=dict(
+        min_delta=0.005,
+        monitor='acc/top1',
+        patience=25,
+        rule='greater',
+        type='EarlyStoppingHook'),
+    logger=dict(ignore_last=False, interval=100, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    runtime_info=dict(type='RuntimeInfoHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    sync_buffers=dict(type='SyncBuffersHook'),
+    timer=dict(type='IterTimerHook'))
+default_scope = 'mmaction'
+env_cfg = dict(
+    cudnn_benchmark=False,
+    dist_cfg=dict(backend='nccl'),
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
+file_client_args = dict(io_backend='disk')
+launcher = 'none'
+load_from = None
+log_level = 'INFO'
+log_processor = dict(by_epoch=True, type='LogProcessor', window_size=20)
+model = dict(
+    backbone=dict(
+        backbone_drop_path_rate=0.0,
+        clip_pretrained=True,
+        double_lmhra=True,
+        drop_path_rate=0.0,
+        dw_reduction=1.5,
+        heads=12,
+        input_resolution=224,
+        layers=12,
+        mlp_dropout=[
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+        ],
+        mlp_factor=4.0,
+        n_dim=768,
+        n_head=12,
+        n_layers=4,
+        no_lmhra=True,
+        patch_size=16,
+        pretrained='ViT-B/16',
+        return_list=[
+            8,
+            9,
+            10,
+            11,
+        ],
+        t_size=25,
+        temporal_downsample=False,
+        type='UniFormerV2',
+        width=768),
+    cls_head=dict(
+        average_clips='prob',
+        dropout_ratio=0.5,
+        in_channels=768,
+        num_classes=2,
+        type='UniFormerHead'),
+    data_preprocessor=dict(
+        format_shape='NCTHW',
+        mean=[
+            114.75,
+            114.75,
+            114.75,
+        ],
+        std=[
+            57.375,
+            57.375,
+            57.375,
+        ],
+        type='ActionDataPreprocessor'),
+    type='Recognizer3D')
+num_frames = 25
+optim_wrapper = dict(
+    clip_grad=dict(max_norm=20, norm_type=2),
+    optimizer=dict(
+        betas=(
+            0.9,
+            0.999,
+        ), lr=1e-05, type='AdamW', weight_decay=0.05),
+    paramwise_cfg=dict(bias_decay_mult=0.0, norm_decay_mult=0.0))
+param_scheduler = [
+    dict(
+        begin=0,
+        by_epoch=True,
+        convert_to_iter_based=True,
+        end=5,
+        start_factor=0.1,
+        type='LinearLR'),
+    dict(
+        T_max=50,
+        begin=5,
+        by_epoch=True,
+        convert_to_iter_based=True,
+        end=55,
+        eta_min_ratio=0.1,
+        type='CosineAnnealingLR'),
+]
+randomness = dict(deterministic=False, diff_rank_seed=False, seed=None)
+resume = False
+test_cfg = dict(type='TestLoop')
+test_dataloader = dict(
+    batch_size=8,
+    dataset=dict(
+        ann_file='data/rfds/25_validation.txt',
+        data_prefix=dict(video='data/rfds/25_validation'),
+        pipeline=[
+            dict(io_backend='disk', type='DecordInit'),
+            dict(
+                clip_len=25, num_clips=4, test_mode=True,
+                type='UniformSample'),
+            dict(type='DecordDecode'),
+            dict(scale=(
+                -1,
+                224,
+            ), type='Resize'),
+            dict(crop_size=224, type='ThreeCrop'),
+            dict(input_format='NCTHW', type='FormatShape'),
+            dict(type='PackActionInputs'),
+        ],
+        test_mode=True,
+        type='VideoDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(type='AccMetric')
+test_pipeline = [
+    dict(io_backend='disk', type='DecordInit'),
+    dict(clip_len=25, num_clips=4, test_mode=True, type='UniformSample'),
+    dict(type='DecordDecode'),
+    dict(scale=(
+        -1,
+        224,
+    ), type='Resize'),
+    dict(crop_size=224, type='ThreeCrop'),
+    dict(input_format='NCTHW', type='FormatShape'),
+    dict(type='PackActionInputs'),
+]
+train_cfg = dict(
+    max_epochs=150, type='EpochBasedTrainLoop', val_begin=1, val_interval=1)
+train_dataloader = dict(
+    batch_size=8,
+    dataset=dict(
+        ann_file='data/rfds/25_train.txt',
+        data_prefix=dict(video='data/rfds/25_train'),
+        pipeline=[
+            dict(io_backend='disk', type='DecordInit'),
+            dict(clip_len=25, num_clips=1, type='UniformSample'),
+            dict(type='DecordDecode'),
+            dict(scale=(
+                -1,
+                256,
+            ), type='Resize'),
+            dict(type='RandomResizedCrop'),
+            dict(keep_ratio=False, scale=(
+                224,
+                224,
+            ), type='Resize'),
+            dict(flip_ratio=0.5, type='Flip'),
+            dict(input_format='NCTHW', type='FormatShape'),
+            dict(type='PackActionInputs'),
+        ],
+        type='VideoDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(io_backend='disk', type='DecordInit'),
+    dict(clip_len=25, num_clips=1, type='UniformSample'),
+    dict(type='DecordDecode'),
+    dict(scale=(
+        -1,
+        256,
+    ), type='Resize'),
+    dict(type='RandomResizedCrop'),
+    dict(keep_ratio=False, scale=(
+        224,
+        224,
+    ), type='Resize'),
+    dict(flip_ratio=0.5, type='Flip'),
+    dict(input_format='NCTHW', type='FormatShape'),
+    dict(type='PackActionInputs'),
+]
+val_cfg = dict(type='ValLoop')
+val_dataloader = dict(
+    batch_size=8,
+    dataset=dict(
+        ann_file='data/rfds/25_validation.txt',
+        data_prefix=dict(video='data/rfds/25_validation'),
+        pipeline=[
+            dict(io_backend='disk', type='DecordInit'),
+            dict(
+                clip_len=25, num_clips=1, test_mode=True,
+                type='UniformSample'),
+            dict(type='DecordDecode'),
+            dict(scale=(
+                -1,
+                224,
+            ), type='Resize'),
+            dict(crop_size=224, type='CenterCrop'),
+            dict(input_format='NCTHW', type='FormatShape'),
+            dict(type='PackActionInputs'),
+        ],
+        test_mode=True,
+        type='VideoDataset'),
+    num_workers=8,
+    persistent_workers=True,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    metrics=[
+        dict(type='AccMetric'),
+        dict(type='ConfusionMatrix'),
+    ],
+    type='Evaluator')
+val_pipeline = [
+    dict(io_backend='disk', type='DecordInit'),
+    dict(clip_len=25, num_clips=1, test_mode=True, type='UniformSample'),
+    dict(type='DecordDecode'),
+    dict(scale=(
+        -1,
+        224,
+    ), type='Resize'),
+    dict(crop_size=224, type='CenterCrop'),
+    dict(input_format='NCTHW', type='FormatShape'),
+    dict(type='PackActionInputs'),
+]
+work_dir = './work_dirs/UNI_25_RFDS'
+
+12/29 18:54:49 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:49 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:49 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:49 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:49 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:49 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:49 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - No L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Double L_MHRA: True
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - Drop path rate: 0.0
+12/29 18:54:50 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+12/29 18:54:50 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+(LOWEST      ) EarlyStoppingHook                  
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) SyncBuffersHook                    
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+(LOWEST      ) EarlyStoppingHook                  
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.ln_pre.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.ln_pre.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.0.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.0.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.0.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.0.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.0.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.0.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.0.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.1.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.1.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.1.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.1.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.1.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.1.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.1.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.2.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.2.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.2.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.2.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.2.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.2.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.2.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.3.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.3.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.3.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.3.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.3.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.3.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.3.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.4.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.4.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.4.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.4.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.4.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.4.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.4.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.5.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.5.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.5.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.5.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.5.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.5.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.5.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.6.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.6.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.6.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.6.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.6.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.6.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.6.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.7.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.7.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.7.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.7.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.7.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.7.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.7.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.8.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.8.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.8.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.8.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.8.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.8.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.8.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.9.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.9.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.9.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.9.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.9.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.9.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.9.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.10.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.10.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.10.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.10.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.10.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.10.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.10.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.11.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.11.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.11.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.11.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.11.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.11.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.resblocks.11.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dpe.0.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dpe.1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dpe.2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dpe.3.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.ln_3.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.0.ln_3.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.ln_3.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.1.ln_3.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.ln_3.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.2.ln_3.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.attn.out_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.ln_1.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.ln_1.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.mlp.c_fc.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.mlp.c_proj.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.ln_2.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.ln_2.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.ln_3.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.dec.3.ln_3.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.norm.weight:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- backbone.transformer.norm.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - paramwise_options -- cls_head.fc_cls.bias:weight_decay=0.0
+12/29 18:54:51 - mmengine - INFO - LR is set based on batch size of 256 and the current batch size is 8. Scaling the original LR by 0.03125.
+12/29 18:54:52 - mmengine - INFO - load model from: ViT-B/16
+12/29 18:54:52 - mmengine - INFO - Load CLIP pretrained model from https://download.openmmlab.com/mmaction/v1.0/recognition/uniformerv2/clipVisualEncoder/vit-base-p16-res224_clip-rgb_20221219-b8a5da86.pth
+Loads checkpoint by http backend from path: https://download.openmmlab.com/mmaction/v1.0/recognition/uniformerv2/clipVisualEncoder/vit-base-p16-res224_clip-rgb_20221219-b8a5da86.pth
+12/29 18:55:04 - mmengine - INFO - Inflate: conv1.weight, torch.Size([768, 3, 16, 16]) => torch.Size([768, 3, 1, 16, 16])
+12/29 18:55:04 - mmengine - INFO - Init center: True
+12/29 18:55:05 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+12/29 18:55:05 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+12/29 18:55:05 - mmengine - INFO - Checkpoints will be saved to /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS.
+/mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/myenv/lib/python3.8/site-packages/mmengine/optim/optimizer/zero_optimizer.py:11: DeprecationWarning: `TorchScript` support for functional optimizers is deprecated and will be removed in a future PyTorch release. Consider using the `torch.compile` optimizer instead.
+  from torch.distributed.optim import \
+/mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/myenv/lib/python3.8/site-packages/mmcv/cnn/bricks/transformer.py:33: UserWarning: Fail to import ``MultiScaleDeformableAttention`` from ``mmcv.ops.multi_scale_deform_attn``, You should install ``mmcv`` rather than ``mmcv-lite`` if you need this module. 
+  warnings.warn('Fail to import ``MultiScaleDeformableAttention`` from '
+12/29 18:58:18 - mmengine - INFO - Epoch(train)   [1][100/140]  base_lr: 2.2747e-06 lr: 7.1084e-08  eta: 11:12:29  time: 1.9316  data_time: 0.0093  memory: 34228  grad_norm: 59.9602  loss: 0.7365  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.7365
+12/29 18:59:35 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 18:59:35 - mmengine - INFO - Epoch(train)   [1][140/140]  base_lr: 2.7897e-06 lr: 8.7178e-08  eta: 11:10:02  time: 1.8956  data_time: 0.0094  memory: 34228  grad_norm: 67.1595  loss: 0.8163  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 0.8163
+12/29 18:59:59 - mmengine - INFO - Epoch(val) [1][35/35]    acc/top1: 0.5143  acc/top5: 1.0000  acc/mean1: 0.5137  confusion_matrix/result: 
+tensor([[67, 68],
+        [68, 77]])
+  data_time: 0.0266  time: 0.6846
+12/29 19:00:00 - mmengine - INFO - The best checkpoint with 0.5143 acc/top1 at 1 epoch is saved to best_acc_top1_epoch_1.pth.
+12/29 19:03:15 - mmengine - INFO - Epoch(train)   [2][100/140]  base_lr: 4.0773e-06 lr: 1.2741e-07  eta: 11:09:42  time: 1.9479  data_time: 0.0096  memory: 34228  grad_norm: 63.5019  loss: 0.7470  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.7470
+12/29 19:04:32 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:04:32 - mmengine - INFO - Epoch(train)   [2][140/140]  base_lr: 4.5923e-06 lr: 1.4351e-07  eta: 11:08:00  time: 1.9009  data_time: 0.0093  memory: 34228  grad_norm: 61.3983  loss: 0.7463  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 0.7463
+12/29 19:04:56 - mmengine - INFO - Epoch(val) [2][35/35]    acc/top1: 0.5607  acc/top5: 1.0000  acc/mean1: 0.5562  confusion_matrix/result: 
+tensor([[58, 77],
+        [46, 99]])
+  data_time: 0.0115  time: 0.6792
+12/29 19:04:56 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_1.pth is removed
+12/29 19:04:57 - mmengine - INFO - The best checkpoint with 0.5607 acc/top1 at 2 epoch is saved to best_acc_top1_epoch_2.pth.
+12/29 19:08:14 - mmengine - INFO - Epoch(train)   [3][100/140]  base_lr: 5.8798e-06 lr: 1.8374e-07  eta: 11:07:59  time: 1.9651  data_time: 0.0095  memory: 34228  grad_norm: 70.5510  loss: 0.7226  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.7226
+12/29 19:09:31 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:09:31 - mmengine - INFO - Epoch(train)   [3][140/140]  base_lr: 6.3948e-06 lr: 1.9984e-07  eta: 11:06:01  time: 1.8950  data_time: 0.0091  memory: 34228  grad_norm: 87.7701  loss: 0.7034  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.7034
+12/29 19:09:31 - mmengine - INFO - Saving checkpoint at 3 epochs
+12/29 19:09:57 - mmengine - INFO - Epoch(val) [3][35/35]    acc/top1: 0.6036  acc/top5: 1.0000  acc/mean1: 0.6027  confusion_matrix/result: 
+tensor([[78, 57],
+        [54, 91]])
+  data_time: 0.0112  time: 0.6686
+12/29 19:09:57 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_2.pth is removed
+12/29 19:09:59 - mmengine - INFO - The best checkpoint with 0.6036 acc/top1 at 3 epoch is saved to best_acc_top1_epoch_3.pth.
+12/29 19:13:16 - mmengine - INFO - Epoch(train)   [4][100/140]  base_lr: 7.6824e-06 lr: 2.4008e-07  eta: 11:03:09  time: 1.9345  data_time: 0.0096  memory: 34228  grad_norm: 174.3926  loss: 0.7734  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.7734
+12/29 19:14:33 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:14:33 - mmengine - INFO - Epoch(train)   [4][140/140]  base_lr: 8.1974e-06 lr: 2.5617e-07  eta: 11:01:20  time: 1.9019  data_time: 0.0094  memory: 34228  grad_norm: 150.7886  loss: 0.6592  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.6592
+12/29 19:14:57 - mmengine - INFO - Epoch(val) [4][35/35]    acc/top1: 0.6214  acc/top5: 1.0000  acc/mean1: 0.6266  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 75,  70]])
+  data_time: 0.0111  time: 0.6730
+12/29 19:14:57 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_3.pth is removed
+12/29 19:14:58 - mmengine - INFO - The best checkpoint with 0.6214 acc/top1 at 4 epoch is saved to best_acc_top1_epoch_4.pth.
+12/29 19:18:17 - mmengine - INFO - Epoch(train)   [5][100/140]  base_lr: 9.4850e-06 lr: 2.9641e-07  eta: 10:59:02  time: 1.9683  data_time: 0.0096  memory: 34228  grad_norm: 217.5150  loss: 0.6202  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.6202
+12/29 19:19:34 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:19:34 - mmengine - INFO - Epoch(train)   [5][140/140]  base_lr: 1.0000e-05 lr: 3.1250e-07  eta: 10:57:25  time: 1.8971  data_time: 0.0094  memory: 34228  grad_norm: 213.2787  loss: 0.6142  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.6142
+12/29 19:19:58 - mmengine - INFO - Epoch(val) [5][35/35]    acc/top1: 0.6179  acc/top5: 1.0000  acc/mean1: 0.6239  confusion_matrix/result: 
+tensor([[107,  28],
+        [ 79,  66]])
+  data_time: 0.0118  time: 0.6733
+12/29 19:23:13 - mmengine - INFO - Epoch(train)   [6][100/140]  base_lr: 9.9956e-06 lr: 3.1236e-07  eta: 10:54:37  time: 1.9559  data_time: 0.0096  memory: 34228  grad_norm: 234.5241  loss: 0.6314  top1_acc: 0.3750  top5_acc: 1.0000  loss_cls: 0.6314
+12/29 19:24:30 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:24:30 - mmengine - INFO - Epoch(train)   [6][140/140]  base_lr: 9.9912e-06 lr: 3.1223e-07  eta: 10:53:07  time: 1.9058  data_time: 0.0094  memory: 34228  grad_norm: 287.7033  loss: 0.7139  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 0.7139
+12/29 19:24:30 - mmengine - INFO - Saving checkpoint at 6 epochs
+12/29 19:24:57 - mmengine - INFO - Epoch(val) [6][35/35]    acc/top1: 0.6214  acc/top5: 1.0000  acc/mean1: 0.6289  confusion_matrix/result: 
+tensor([[113,  22],
+        [ 84,  61]])
+  data_time: 0.0116  time: 0.6749
+12/29 19:28:12 - mmengine - INFO - Epoch(train)   [7][100/140]  base_lr: 9.9741e-06 lr: 3.1169e-07  eta: 10:50:10  time: 1.9610  data_time: 0.0097  memory: 34228  grad_norm: 270.9164  loss: 0.6574  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.6574
+12/29 19:29:30 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:29:30 - mmengine - INFO - Epoch(train)   [7][140/140]  base_lr: 9.9648e-06 lr: 3.1140e-07  eta: 10:48:51  time: 1.9167  data_time: 0.0094  memory: 34228  grad_norm: 288.2156  loss: 0.6239  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.6239
+12/29 19:29:53 - mmengine - INFO - Epoch(val) [7][35/35]    acc/top1: 0.7036  acc/top5: 1.0000  acc/mean1: 0.7028  confusion_matrix/result: 
+tensor([[ 92,  43],
+        [ 40, 105]])
+  data_time: 0.0116  time: 0.6782
+12/29 19:29:53 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_4.pth is removed
+12/29 19:29:55 - mmengine - INFO - The best checkpoint with 0.7036 acc/top1 at 7 epoch is saved to best_acc_top1_epoch_7.pth.
+12/29 19:30:37 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:33:12 - mmengine - INFO - Epoch(train)   [8][100/140]  base_lr: 9.9351e-06 lr: 3.1047e-07  eta: 10:45:40  time: 1.9427  data_time: 0.0097  memory: 34228  grad_norm: 326.7946  loss: 0.6361  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.6361
+12/29 19:34:29 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:34:29 - mmengine - INFO - Epoch(train)   [8][140/140]  base_lr: 9.9207e-06 lr: 3.1002e-07  eta: 10:43:59  time: 1.8898  data_time: 0.0095  memory: 34228  grad_norm: 374.8744  loss: 0.6649  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.6649
+12/29 19:34:53 - mmengine - INFO - Epoch(val) [8][35/35]    acc/top1: 0.6929  acc/top5: 1.0000  acc/mean1: 0.6940  confusion_matrix/result: 
+tensor([[98, 37],
+        [49, 96]])
+  data_time: 0.0115  time: 0.6738
+12/29 19:38:09 - mmengine - INFO - Epoch(train)   [9][100/140]  base_lr: 9.8785e-06 lr: 3.0870e-07  eta: 10:41:11  time: 1.9569  data_time: 0.0096  memory: 34228  grad_norm: 322.9473  loss: 0.5482  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.5482
+12/29 19:39:26 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:39:26 - mmengine - INFO - Epoch(train)   [9][140/140]  base_lr: 9.8591e-06 lr: 3.0810e-07  eta: 10:39:42  time: 1.9016  data_time: 0.0095  memory: 34228  grad_norm: 346.8413  loss: 0.5792  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5792
+12/29 19:39:26 - mmengine - INFO - Saving checkpoint at 9 epochs
+12/29 19:39:52 - mmengine - INFO - Epoch(val) [9][35/35]    acc/top1: 0.7214  acc/top5: 1.0000  acc/mean1: 0.7231  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 47,  98]])
+  data_time: 0.0117  time: 0.6741
+12/29 19:39:52 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_7.pth is removed
+12/29 19:39:53 - mmengine - INFO - The best checkpoint with 0.7214 acc/top1 at 9 epoch is saved to best_acc_top1_epoch_9.pth.
+12/29 19:43:11 - mmengine - INFO - Epoch(train)  [10][100/140]  base_lr: 9.8046e-06 lr: 3.0639e-07  eta: 10:36:38  time: 1.9476  data_time: 0.0096  memory: 34228  grad_norm: 327.6393  loss: 0.5704  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.5704
+12/29 19:44:28 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:44:28 - mmengine - INFO - Epoch(train)  [10][140/140]  base_lr: 9.7804e-06 lr: 3.0564e-07  eta: 10:35:07  time: 1.8924  data_time: 0.0095  memory: 34228  grad_norm: 283.9052  loss: 0.6072  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.6072
+12/29 19:44:52 - mmengine - INFO - Epoch(val) [10][35/35]    acc/top1: 0.6714  acc/top5: 1.0000  acc/mean1: 0.6754  confusion_matrix/result: 
+tensor([[106,  29],
+        [ 63,  82]])
+  data_time: 0.0116  time: 0.6702
+12/29 19:48:09 - mmengine - INFO - Epoch(train)  [11][100/140]  base_lr: 9.7138e-06 lr: 3.0356e-07  eta: 10:32:22  time: 1.9674  data_time: 0.0095  memory: 34228  grad_norm: 415.3786  loss: 0.5502  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5502
+12/29 19:49:26 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:49:26 - mmengine - INFO - Epoch(train)  [11][140/140]  base_lr: 9.6847e-06 lr: 3.0265e-07  eta: 10:30:58  time: 1.9011  data_time: 0.0094  memory: 34228  grad_norm: 388.6541  loss: 0.6068  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.6068
+12/29 19:49:49 - mmengine - INFO - Epoch(val) [11][35/35]    acc/top1: 0.6964  acc/top5: 1.0000  acc/mean1: 0.7005  confusion_matrix/result: 
+tensor([[110,  25],
+        [ 60,  85]])
+  data_time: 0.0116  time: 0.6712
+12/29 19:53:04 - mmengine - INFO - Epoch(train)  [12][100/140]  base_lr: 9.6063e-06 lr: 3.0020e-07  eta: 10:27:41  time: 1.9454  data_time: 0.0096  memory: 34228  grad_norm: 384.3659  loss: 0.6082  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.6082
+12/29 19:54:21 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:54:21 - mmengine - INFO - Epoch(train)  [12][140/140]  base_lr: 9.5726e-06 lr: 2.9914e-07  eta: 10:26:12  time: 1.8963  data_time: 0.0095  memory: 34228  grad_norm: 378.8857  loss: 0.5045  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5045
+12/29 19:54:21 - mmengine - INFO - Saving checkpoint at 12 epochs
+12/29 19:54:47 - mmengine - INFO - Epoch(val) [12][35/35]    acc/top1: 0.7321  acc/top5: 1.0000  acc/mean1: 0.7324  confusion_matrix/result: 
+tensor([[100,  35],
+        [ 40, 105]])
+  data_time: 0.0118  time: 0.6704
+12/29 19:54:47 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_9.pth is removed
+12/29 19:54:49 - mmengine - INFO - The best checkpoint with 0.7321 acc/top1 at 12 epoch is saved to best_acc_top1_epoch_12.pth.
+12/29 19:58:05 - mmengine - INFO - Epoch(train)  [13][100/140]  base_lr: 9.4826e-06 lr: 2.9633e-07  eta: 10:22:52  time: 1.9383  data_time: 0.0097  memory: 34228  grad_norm: 464.6644  loss: 0.5256  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.5256
+12/29 19:59:22 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 19:59:22 - mmengine - INFO - Epoch(train)  [13][140/140]  base_lr: 9.4444e-06 lr: 2.9514e-07  eta: 10:21:21  time: 1.8891  data_time: 0.0094  memory: 34228  grad_norm: 441.2956  loss: 0.5570  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5570
+12/29 19:59:46 - mmengine - INFO - Epoch(val) [13][35/35]    acc/top1: 0.7000  acc/top5: 1.0000  acc/mean1: 0.6904  confusion_matrix/result: 
+tensor([[ 57,  78],
+        [  6, 139]])
+  data_time: 0.0113  time: 0.6712
+12/29 20:03:00 - mmengine - INFO - Epoch(train)  [14][100/140]  base_lr: 9.3432e-06 lr: 2.9197e-07  eta: 10:18:11  time: 1.9361  data_time: 0.0097  memory: 34228  grad_norm: 482.2457  loss: 0.6216  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.6216
+12/29 20:04:17 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:04:17 - mmengine - INFO - Epoch(train)  [14][140/140]  base_lr: 9.3006e-06 lr: 2.9064e-07  eta: 10:16:43  time: 1.8997  data_time: 0.0098  memory: 34228  grad_norm: 329.8597  loss: 0.5328  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.5328
+12/29 20:04:41 - mmengine - INFO - Epoch(val) [14][35/35]    acc/top1: 0.7000  acc/top5: 1.0000  acc/mean1: 0.7034  confusion_matrix/result: 
+tensor([[108,  27],
+        [ 57,  88]])
+  data_time: 0.0117  time: 0.6767
+12/29 20:05:59 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:07:56 - mmengine - INFO - Epoch(train)  [15][100/140]  base_lr: 9.1886e-06 lr: 2.8714e-07  eta: 10:13:37  time: 1.9375  data_time: 0.0098  memory: 34228  grad_norm: 364.7981  loss: 0.5459  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5459
+12/29 20:09:13 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:09:13 - mmengine - INFO - Epoch(train)  [15][140/140]  base_lr: 9.1418e-06 lr: 2.8568e-07  eta: 10:12:08  time: 1.8898  data_time: 0.0095  memory: 34228  grad_norm: 446.0160  loss: 0.4815  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4815
+12/29 20:09:13 - mmengine - INFO - Saving checkpoint at 15 epochs
+12/29 20:09:39 - mmengine - INFO - Epoch(val) [15][35/35]    acc/top1: 0.7643  acc/top5: 1.0000  acc/mean1: 0.7622  confusion_matrix/result: 
+tensor([[ 95,  40],
+        [ 26, 119]])
+  data_time: 0.0119  time: 0.6700
+12/29 20:09:39 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_12.pth is removed
+12/29 20:09:40 - mmengine - INFO - The best checkpoint with 0.7643 acc/top1 at 15 epoch is saved to best_acc_top1_epoch_15.pth.
+12/29 20:12:58 - mmengine - INFO - Epoch(train)  [16][100/140]  base_lr: 9.0195e-06 lr: 2.8186e-07  eta: 10:09:01  time: 1.9621  data_time: 0.0097  memory: 34228  grad_norm: 334.8908  loss: 0.4194  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4194
+12/29 20:14:15 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:14:15 - mmengine - INFO - Epoch(train)  [16][140/140]  base_lr: 8.9686e-06 lr: 2.8027e-07  eta: 10:07:37  time: 1.8950  data_time: 0.0094  memory: 34228  grad_norm: 381.6629  loss: 0.4942  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4942
+12/29 20:14:39 - mmengine - INFO - Epoch(val) [16][35/35]    acc/top1: 0.7429  acc/top5: 1.0000  acc/mean1: 0.7374  confusion_matrix/result: 
+tensor([[ 79,  56],
+        [ 16, 129]])
+  data_time: 0.0117  time: 0.6705
+12/29 20:17:53 - mmengine - INFO - Epoch(train)  [17][100/140]  base_lr: 8.8365e-06 lr: 2.7614e-07  eta: 10:04:26  time: 1.9463  data_time: 0.0097  memory: 34228  grad_norm: 548.1645  loss: 0.5898  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.5898
+12/29 20:19:11 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:19:11 - mmengine - INFO - Epoch(train)  [17][140/140]  base_lr: 8.7817e-06 lr: 2.7443e-07  eta: 10:03:06  time: 1.9120  data_time: 0.0094  memory: 34228  grad_norm: 368.4222  loss: 0.3583  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3583
+12/29 20:19:35 - mmengine - INFO - Epoch(val) [17][35/35]    acc/top1: 0.7536  acc/top5: 1.0000  acc/mean1: 0.7534  confusion_matrix/result: 
+tensor([[101,  34],
+        [ 35, 110]])
+  data_time: 0.0116  time: 0.6800
+12/29 20:22:51 - mmengine - INFO - Epoch(train)  [18][100/140]  base_lr: 8.6403e-06 lr: 2.7001e-07  eta: 10:00:06  time: 1.9490  data_time: 0.0098  memory: 34228  grad_norm: 389.4503  loss: 0.4820  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4820
+12/29 20:24:08 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:24:08 - mmengine - INFO - Epoch(train)  [18][140/140]  base_lr: 8.5819e-06 lr: 2.6819e-07  eta: 9:58:40  time: 1.8882  data_time: 0.0096  memory: 34228  grad_norm: 360.2812  loss: 0.4999  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4999
+12/29 20:24:08 - mmengine - INFO - Saving checkpoint at 18 epochs
+12/29 20:24:34 - mmengine - INFO - Epoch(val) [18][35/35]    acc/top1: 0.7357  acc/top5: 1.0000  acc/mean1: 0.7359  confusion_matrix/result: 
+tensor([[100,  35],
+        [ 39, 106]])
+  data_time: 0.0118  time: 0.6657
+12/29 20:27:48 - mmengine - INFO - Epoch(train)  [19][100/140]  base_lr: 8.4317e-06 lr: 2.6349e-07  eta: 9:55:24  time: 1.9457  data_time: 0.0097  memory: 34228  grad_norm: 533.9232  loss: 0.5284  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.5284
+12/29 20:29:05 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:29:05 - mmengine - INFO - Epoch(train)  [19][140/140]  base_lr: 8.3700e-06 lr: 2.6156e-07  eta: 9:54:02  time: 1.9072  data_time: 0.0095  memory: 34228  grad_norm: 433.3810  loss: 0.5125  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5125
+12/29 20:29:29 - mmengine - INFO - Epoch(val) [19][35/35]    acc/top1: 0.7536  acc/top5: 1.0000  acc/mean1: 0.7511  confusion_matrix/result: 
+tensor([[ 92,  43],
+        [ 26, 119]])
+  data_time: 0.0117  time: 0.6797
+12/29 20:32:45 - mmengine - INFO - Epoch(train)  [20][100/140]  base_lr: 8.2116e-06 lr: 2.5661e-07  eta: 9:50:59  time: 1.9447  data_time: 0.0094  memory: 34228  grad_norm: 420.4754  loss: 0.4733  top1_acc: 0.2500  top5_acc: 1.0000  loss_cls: 0.4733
+12/29 20:34:02 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:34:02 - mmengine - INFO - Epoch(train)  [20][140/140]  base_lr: 8.1467e-06 lr: 2.5458e-07  eta: 9:49:35  time: 1.8915  data_time: 0.0095  memory: 34228  grad_norm: 456.1765  loss: 0.5104  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5104
+12/29 20:34:25 - mmengine - INFO - Epoch(val) [20][35/35]    acc/top1: 0.7607  acc/top5: 1.0000  acc/mean1: 0.7608  confusion_matrix/result: 
+tensor([[103,  32],
+        [ 35, 110]])
+  data_time: 0.0118  time: 0.6720
+12/29 20:37:40 - mmengine - INFO - Epoch(train)  [21][100/140]  base_lr: 7.9807e-06 lr: 2.4940e-07  eta: 9:46:21  time: 1.9394  data_time: 0.0099  memory: 34228  grad_norm: 523.1760  loss: 0.5045  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.5045
+12/29 20:38:56 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:38:56 - mmengine - INFO - Epoch(train)  [21][140/140]  base_lr: 7.9129e-06 lr: 2.4728e-07  eta: 9:44:55  time: 1.8886  data_time: 0.0095  memory: 34228  grad_norm: 447.0962  loss: 0.4230  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4230
+12/29 20:38:56 - mmengine - INFO - Saving checkpoint at 21 epochs
+12/29 20:39:22 - mmengine - INFO - Epoch(val) [21][35/35]    acc/top1: 0.7643  acc/top5: 1.0000  acc/mean1: 0.7609  confusion_matrix/result: 
+tensor([[ 90,  45],
+        [ 21, 124]])
+  data_time: 0.0116  time: 0.6686
+12/29 20:41:20 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:42:39 - mmengine - INFO - Epoch(train)  [22][100/140]  base_lr: 7.7401e-06 lr: 2.4188e-07  eta: 9:41:51  time: 1.9481  data_time: 0.0098  memory: 34228  grad_norm: 374.3353  loss: 0.4660  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4660
+12/29 20:43:55 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:43:55 - mmengine - INFO - Epoch(train)  [22][140/140]  base_lr: 7.6697e-06 lr: 2.3968e-07  eta: 9:40:27  time: 1.8897  data_time: 0.0094  memory: 34228  grad_norm: 486.6381  loss: 0.4664  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4664
+12/29 20:44:19 - mmengine - INFO - Epoch(val) [22][35/35]    acc/top1: 0.7607  acc/top5: 1.0000  acc/mean1: 0.7636  confusion_matrix/result: 
+tensor([[114,  21],
+        [ 46,  99]])
+  data_time: 0.0115  time: 0.6692
+12/29 20:47:34 - mmengine - INFO - Epoch(train)  [23][100/140]  base_lr: 7.4906e-06 lr: 2.3408e-07  eta: 9:37:16  time: 1.9597  data_time: 0.0098  memory: 34228  grad_norm: 472.8294  loss: 0.3612  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3612
+12/29 20:48:51 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:48:51 - mmengine - INFO - Epoch(train)  [23][140/140]  base_lr: 7.4178e-06 lr: 2.3181e-07  eta: 9:35:58  time: 1.9177  data_time: 0.0098  memory: 34228  grad_norm: 618.1094  loss: 0.4518  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4518
+12/29 20:49:15 - mmengine - INFO - Epoch(val) [23][35/35]    acc/top1: 0.7571  acc/top5: 1.0000  acc/mean1: 0.7584  confusion_matrix/result: 
+tensor([[107,  28],
+        [ 40, 105]])
+  data_time: 0.0113  time: 0.6786
+12/29 20:52:31 - mmengine - INFO - Epoch(train)  [24][100/140]  base_lr: 7.2333e-06 lr: 2.2604e-07  eta: 9:32:51  time: 1.9648  data_time: 0.0099  memory: 34228  grad_norm: 543.9753  loss: 0.4560  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4560
+12/29 20:53:48 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:53:48 - mmengine - INFO - Epoch(train)  [24][140/140]  base_lr: 7.1584e-06 lr: 2.2370e-07  eta: 9:31:33  time: 1.9153  data_time: 0.0095  memory: 34228  grad_norm: 464.3086  loss: 0.3924  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3924
+12/29 20:53:48 - mmengine - INFO - Saving checkpoint at 24 epochs
+12/29 20:54:15 - mmengine - INFO - Epoch(val) [24][35/35]    acc/top1: 0.7714  acc/top5: 1.0000  acc/mean1: 0.7686  confusion_matrix/result: 
+tensor([[ 93,  42],
+        [ 22, 123]])
+  data_time: 0.0121  time: 0.6796
+12/29 20:54:15 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_15.pth is removed
+12/29 20:54:16 - mmengine - INFO - The best checkpoint with 0.7714 acc/top1 at 24 epoch is saved to best_acc_top1_epoch_24.pth.
+12/29 20:57:35 - mmengine - INFO - Epoch(train)  [25][100/140]  base_lr: 6.9691e-06 lr: 2.1778e-07  eta: 9:28:25  time: 1.9530  data_time: 0.0098  memory: 34228  grad_norm: 479.5761  loss: 0.4514  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4514
+12/29 20:58:51 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 20:58:51 - mmengine - INFO - Epoch(train)  [25][140/140]  base_lr: 6.8925e-06 lr: 2.1539e-07  eta: 9:27:01  time: 1.8862  data_time: 0.0096  memory: 34228  grad_norm: 602.2234  loss: 0.4161  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4161
+12/29 20:59:15 - mmengine - INFO - Epoch(val) [25][35/35]    acc/top1: 0.7536  acc/top5: 1.0000  acc/mean1: 0.7562  confusion_matrix/result: 
+tensor([[112,  23],
+        [ 46,  99]])
+  data_time: 0.0117  time: 0.6667
+12/29 21:02:30 - mmengine - INFO - Epoch(train)  [26][100/140]  base_lr: 6.6991e-06 lr: 2.0935e-07  eta: 9:23:50  time: 1.9540  data_time: 0.0098  memory: 34228  grad_norm: 510.6703  loss: 0.4156  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4156
+12/29 21:03:47 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:03:47 - mmengine - INFO - Epoch(train)  [26][140/140]  base_lr: 6.6211e-06 lr: 2.0691e-07  eta: 9:22:28  time: 1.8954  data_time: 0.0094  memory: 34228  grad_norm: 502.3550  loss: 0.4728  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4728
+12/29 21:04:10 - mmengine - INFO - Epoch(val) [26][35/35]    acc/top1: 0.7893  acc/top5: 1.0000  acc/mean1: 0.7843  confusion_matrix/result: 
+tensor([[ 87,  48],
+        [ 11, 134]])
+  data_time: 0.0117  time: 0.6727
+12/29 21:04:10 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_24.pth is removed
+12/29 21:04:11 - mmengine - INFO - The best checkpoint with 0.7893 acc/top1 at 26 epoch is saved to best_acc_top1_epoch_26.pth.
+12/29 21:07:31 - mmengine - INFO - Epoch(train)  [27][100/140]  base_lr: 6.4244e-06 lr: 2.0076e-07  eta: 9:19:25  time: 1.9689  data_time: 0.0098  memory: 34228  grad_norm: 589.9701  loss: 0.4714  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4714
+12/29 21:08:48 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:08:48 - mmengine - INFO - Epoch(train)  [27][140/140]  base_lr: 6.3452e-06 lr: 1.9829e-07  eta: 9:18:05  time: 1.8972  data_time: 0.0096  memory: 34228  grad_norm: 570.3985  loss: 0.4374  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4374
+12/29 21:08:48 - mmengine - INFO - Saving checkpoint at 27 epochs
+12/29 21:09:15 - mmengine - INFO - Epoch(val) [27][35/35]    acc/top1: 0.7929  acc/top5: 1.0000  acc/mean1: 0.7895  confusion_matrix/result: 
+tensor([[ 94,  41],
+        [ 17, 128]])
+  data_time: 0.0118  time: 0.6718
+12/29 21:09:15 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_26.pth is removed
+12/29 21:09:16 - mmengine - INFO - The best checkpoint with 0.7929 acc/top1 at 27 epoch is saved to best_acc_top1_epoch_27.pth.
+12/29 21:12:34 - mmengine - INFO - Epoch(train)  [28][100/140]  base_lr: 6.1460e-06 lr: 1.9206e-07  eta: 9:14:55  time: 1.9475  data_time: 0.0098  memory: 34228  grad_norm: 662.5630  loss: 0.5517  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.5517
+12/29 21:13:51 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:13:51 - mmengine - INFO - Epoch(train)  [28][140/140]  base_lr: 6.0660e-06 lr: 1.8956e-07  eta: 9:13:34  time: 1.9058  data_time: 0.0096  memory: 34228  grad_norm: 466.3667  loss: 0.3965  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3965
+12/29 21:14:15 - mmengine - INFO - Epoch(val) [28][35/35]    acc/top1: 0.7357  acc/top5: 1.0000  acc/mean1: 0.7423  confusion_matrix/result: 
+tensor([[125,  10],
+        [ 64,  81]])
+  data_time: 0.0117  time: 0.6758
+12/29 21:16:51 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:17:30 - mmengine - INFO - Epoch(train)  [29][100/140]  base_lr: 5.8651e-06 lr: 1.8329e-07  eta: 9:10:20  time: 1.9450  data_time: 0.0096  memory: 34228  grad_norm: 644.1945  loss: 0.3732  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.3732
+12/29 21:18:47 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:18:47 - mmengine - INFO - Epoch(train)  [29][140/140]  base_lr: 5.7846e-06 lr: 1.8077e-07  eta: 9:08:59  time: 1.9110  data_time: 0.0096  memory: 34228  grad_norm: 548.1953  loss: 0.5477  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.5477
+12/29 21:19:11 - mmengine - INFO - Epoch(val) [29][35/35]    acc/top1: 0.7786  acc/top5: 1.0000  acc/mean1: 0.7737  confusion_matrix/result: 
+tensor([[ 86,  49],
+        [ 13, 132]])
+  data_time: 0.0116  time: 0.6810
+12/29 21:22:27 - mmengine - INFO - Epoch(train)  [30][100/140]  base_lr: 5.5828e-06 lr: 1.7446e-07  eta: 9:05:51  time: 1.9499  data_time: 0.0098  memory: 34228  grad_norm: 514.2011  loss: 0.4423  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4423
+12/29 21:23:44 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:23:44 - mmengine - INFO - Epoch(train)  [30][140/140]  base_lr: 5.5020e-06 lr: 1.7194e-07  eta: 9:04:30  time: 1.9009  data_time: 0.0095  memory: 34228  grad_norm: 553.3108  loss: 0.3057  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3057
+12/29 21:23:44 - mmengine - INFO - Saving checkpoint at 30 epochs
+12/29 21:24:10 - mmengine - INFO - Epoch(val) [30][35/35]    acc/top1: 0.7964  acc/top5: 1.0000  acc/mean1: 0.7932  confusion_matrix/result: 
+tensor([[ 95,  40],
+        [ 17, 128]])
+  data_time: 0.0119  time: 0.6742
+12/29 21:24:10 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_27.pth is removed
+12/29 21:24:11 - mmengine - INFO - The best checkpoint with 0.7964 acc/top1 at 30 epoch is saved to best_acc_top1_epoch_30.pth.
+12/29 21:27:30 - mmengine - INFO - Epoch(train)  [31][100/140]  base_lr: 5.3001e-06 lr: 1.6563e-07  eta: 9:01:24  time: 1.9573  data_time: 0.0098  memory: 34228  grad_norm: 645.1480  loss: 0.3562  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3562
+12/29 21:28:48 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:28:48 - mmengine - INFO - Epoch(train)  [31][140/140]  base_lr: 5.2195e-06 lr: 1.6311e-07  eta: 9:00:03  time: 1.9002  data_time: 0.0095  memory: 34228  grad_norm: 643.9302  loss: 0.4340  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4340
+12/29 21:29:11 - mmengine - INFO - Epoch(val) [31][35/35]    acc/top1: 0.7893  acc/top5: 1.0000  acc/mean1: 0.7856  confusion_matrix/result: 
+tensor([[ 92,  43],
+        [ 16, 129]])
+  data_time: 0.0117  time: 0.6741
+12/29 21:32:25 - mmengine - INFO - Epoch(train)  [32][100/140]  base_lr: 5.0182e-06 lr: 1.5682e-07  eta: 8:56:48  time: 1.9366  data_time: 0.0097  memory: 34228  grad_norm: 627.1312  loss: 0.3493  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3493
+12/29 21:33:42 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:33:42 - mmengine - INFO - Epoch(train)  [32][140/140]  base_lr: 4.9380e-06 lr: 1.5431e-07  eta: 8:55:26  time: 1.8934  data_time: 0.0095  memory: 34228  grad_norm: 548.8999  loss: 0.3614  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3614
+12/29 21:34:06 - mmengine - INFO - Epoch(val) [32][35/35]    acc/top1: 0.7750  acc/top5: 1.0000  acc/mean1: 0.7751  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 33, 112]])
+  data_time: 0.0113  time: 0.6722
+12/29 21:37:20 - mmengine - INFO - Epoch(train)  [33][100/140]  base_lr: 4.7383e-06 lr: 1.4807e-07  eta: 8:52:11  time: 1.9433  data_time: 0.0098  memory: 34228  grad_norm: 619.0534  loss: 0.3612  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3612
+12/29 21:38:37 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:38:37 - mmengine - INFO - Epoch(train)  [33][140/140]  base_lr: 4.6588e-06 lr: 1.4559e-07  eta: 8:50:49  time: 1.8898  data_time: 0.0096  memory: 34228  grad_norm: 744.1111  loss: 0.4115  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4115
+12/29 21:38:37 - mmengine - INFO - Saving checkpoint at 33 epochs
+12/29 21:39:03 - mmengine - INFO - Epoch(val) [33][35/35]    acc/top1: 0.8000  acc/top5: 1.0000  acc/mean1: 0.7987  confusion_matrix/result: 
+tensor([[103,  32],
+        [ 24, 121]])
+  data_time: 0.0117  time: 0.6679
+12/29 21:39:03 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_30.pth is removed
+12/29 21:39:04 - mmengine - INFO - The best checkpoint with 0.8000 acc/top1 at 33 epoch is saved to best_acc_top1_epoch_33.pth.
+12/29 21:42:21 - mmengine - INFO - Epoch(train)  [34][100/140]  base_lr: 4.4613e-06 lr: 1.3942e-07  eta: 8:47:35  time: 1.9363  data_time: 0.0097  memory: 34228  grad_norm: 604.3647  loss: 0.5094  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.5094
+12/29 21:43:38 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:43:38 - mmengine - INFO - Epoch(train)  [34][140/140]  base_lr: 4.3829e-06 lr: 1.3696e-07  eta: 8:46:13  time: 1.8939  data_time: 0.0094  memory: 34228  grad_norm: 606.6762  loss: 0.3454  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3454
+12/29 21:44:02 - mmengine - INFO - Epoch(val) [34][35/35]    acc/top1: 0.7964  acc/top5: 1.0000  acc/mean1: 0.7943  confusion_matrix/result: 
+tensor([[ 99,  36],
+        [ 21, 124]])
+  data_time: 0.0116  time: 0.6736
+12/29 21:47:17 - mmengine - INFO - Epoch(train)  [35][100/140]  base_lr: 4.1884e-06 lr: 1.3089e-07  eta: 8:43:04  time: 1.9589  data_time: 0.0096  memory: 34228  grad_norm: 539.3264  loss: 0.3694  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3694
+12/29 21:48:35 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:48:35 - mmengine - INFO - Epoch(train)  [35][140/140]  base_lr: 4.1113e-06 lr: 1.2848e-07  eta: 8:41:45  time: 1.9138  data_time: 0.0094  memory: 34228  grad_norm: 600.1752  loss: 0.4004  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4004
+12/29 21:48:59 - mmengine - INFO - Epoch(val) [35][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8011  confusion_matrix/result: 
+tensor([[ 99,  36],
+        [ 19, 126]])
+  data_time: 0.0117  time: 0.6786
+12/29 21:48:59 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_33.pth is removed
+12/29 21:49:00 - mmengine - INFO - The best checkpoint with 0.8036 acc/top1 at 35 epoch is saved to best_acc_top1_epoch_35.pth.
+12/29 21:52:18 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:52:18 - mmengine - INFO - Epoch(train)  [36][100/140]  base_lr: 3.9207e-06 lr: 1.2252e-07  eta: 8:38:34  time: 1.9614  data_time: 0.0097  memory: 34228  grad_norm: 522.1685  loss: 0.4085  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4085
+12/29 21:53:35 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:53:35 - mmengine - INFO - Epoch(train)  [36][140/140]  base_lr: 3.8453e-06 lr: 1.2017e-07  eta: 8:37:15  time: 1.9138  data_time: 0.0094  memory: 34228  grad_norm: 584.3645  loss: 0.3941  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3941
+12/29 21:53:35 - mmengine - INFO - Saving checkpoint at 36 epochs
+12/29 21:54:02 - mmengine - INFO - Epoch(val) [36][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8078  confusion_matrix/result: 
+tensor([[ 98,  37],
+        [ 16, 129]])
+  data_time: 0.0115  time: 0.6773
+12/29 21:54:02 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_35.pth is removed
+12/29 21:54:03 - mmengine - INFO - The best checkpoint with 0.8107 acc/top1 at 36 epoch is saved to best_acc_top1_epoch_36.pth.
+12/29 21:57:20 - mmengine - INFO - Epoch(train)  [37][100/140]  base_lr: 3.6592e-06 lr: 1.1435e-07  eta: 8:34:00  time: 1.9440  data_time: 0.0096  memory: 34228  grad_norm: 646.2561  loss: 0.3748  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.3748
+12/29 21:58:37 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 21:58:37 - mmengine - INFO - Epoch(train)  [37][140/140]  base_lr: 3.5858e-06 lr: 1.1206e-07  eta: 8:32:39  time: 1.8869  data_time: 0.0094  memory: 34228  grad_norm: 661.8543  loss: 0.4597  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4597
+12/29 21:59:00 - mmengine - INFO - Epoch(val) [37][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8120  confusion_matrix/result: 
+tensor([[101,  34],
+        [ 18, 127]])
+  data_time: 0.0117  time: 0.6711
+12/29 21:59:00 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_36.pth is removed
+12/29 21:59:01 - mmengine - INFO - The best checkpoint with 0.8143 acc/top1 at 37 epoch is saved to best_acc_top1_epoch_37.pth.
+12/29 22:02:20 - mmengine - INFO - Epoch(train)  [38][100/140]  base_lr: 3.4050e-06 lr: 1.0641e-07  eta: 8:29:29  time: 1.9604  data_time: 0.0093  memory: 34228  grad_norm: 630.6262  loss: 0.2880  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2880
+12/29 22:03:37 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:03:37 - mmengine - INFO - Epoch(train)  [38][140/140]  base_lr: 3.3339e-06 lr: 1.0418e-07  eta: 8:28:09  time: 1.9021  data_time: 0.0094  memory: 34228  grad_norm: 613.8160  loss: 0.3078  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3078
+12/29 22:04:01 - mmengine - INFO - Epoch(val) [38][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8024  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 24, 121]])
+  data_time: 0.0116  time: 0.6756
+12/29 22:07:16 - mmengine - INFO - Epoch(train)  [39][100/140]  base_lr: 3.1591e-06 lr: 9.8722e-08  eta: 8:24:58  time: 1.9487  data_time: 0.0097  memory: 34228  grad_norm: 581.7127  loss: 0.5108  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.5108
+12/29 22:08:33 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:08:33 - mmengine - INFO - Epoch(train)  [39][140/140]  base_lr: 3.0905e-06 lr: 9.6578e-08  eta: 8:23:38  time: 1.8991  data_time: 0.0095  memory: 34228  grad_norm: 647.9098  loss: 0.3574  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.3574
+12/29 22:08:33 - mmengine - INFO - Saving checkpoint at 39 epochs
+12/29 22:09:00 - mmengine - INFO - Epoch(val) [39][35/35]    acc/top1: 0.7929  acc/top5: 1.0000  acc/mean1: 0.7939  confusion_matrix/result: 
+tensor([[111,  24],
+        [ 34, 111]])
+  data_time: 0.0116  time: 0.6741
+12/29 22:12:15 - mmengine - INFO - Epoch(train)  [40][100/140]  base_lr: 2.9224e-06 lr: 9.1325e-08  eta: 8:20:24  time: 1.9339  data_time: 0.0096  memory: 34228  grad_norm: 698.6151  loss: 0.4181  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4181
+12/29 22:13:31 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:13:31 - mmengine - INFO - Epoch(train)  [40][140/140]  base_lr: 2.8566e-06 lr: 8.9269e-08  eta: 8:19:04  time: 1.8958  data_time: 0.0092  memory: 34228  grad_norm: 819.9080  loss: 0.4591  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.4591
+12/29 22:13:55 - mmengine - INFO - Epoch(val) [40][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8014  confusion_matrix/result: 
+tensor([[100,  35],
+        [ 20, 125]])
+  data_time: 0.0111  time: 0.6732
+12/29 22:17:10 - mmengine - INFO - Epoch(train)  [41][100/140]  base_lr: 2.6959e-06 lr: 8.4246e-08  eta: 8:15:51  time: 1.9454  data_time: 0.0097  memory: 34228  grad_norm: 607.1473  loss: 0.3447  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3447
+12/29 22:18:26 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:18:26 - mmengine - INFO - Epoch(train)  [41][140/140]  base_lr: 2.6331e-06 lr: 8.2286e-08  eta: 8:14:29  time: 1.8901  data_time: 0.0097  memory: 34228  grad_norm: 624.3297  loss: 0.2909  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2909
+12/29 22:18:50 - mmengine - INFO - Epoch(val) [41][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8056  confusion_matrix/result: 
+tensor([[103,  32],
+        [ 22, 123]])
+  data_time: 0.0111  time: 0.6733
+12/29 22:22:06 - mmengine - INFO - Epoch(train)  [42][100/140]  base_lr: 2.4804e-06 lr: 7.7513e-08  eta: 8:11:18  time: 1.9617  data_time: 0.0097  memory: 34228  grad_norm: 609.4991  loss: 0.3645  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3645
+12/29 22:23:23 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:23:23 - mmengine - INFO - Epoch(train)  [42][140/140]  base_lr: 2.4210e-06 lr: 7.5657e-08  eta: 8:09:59  time: 1.9119  data_time: 0.0095  memory: 34228  grad_norm: 779.2141  loss: 0.3281  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3281
+12/29 22:23:23 - mmengine - INFO - Saving checkpoint at 42 epochs
+12/29 22:23:50 - mmengine - INFO - Epoch(val) [42][35/35]    acc/top1: 0.8000  acc/top5: 1.0000  acc/mean1: 0.8003  confusion_matrix/result: 
+tensor([[109,  26],
+        [ 30, 115]])
+  data_time: 0.0119  time: 0.6766
+12/29 22:27:05 - mmengine - INFO - Epoch(train)  [43][100/140]  base_lr: 2.2769e-06 lr: 7.1152e-08  eta: 8:06:46  time: 1.9352  data_time: 0.0098  memory: 34228  grad_norm: 637.5964  loss: 0.4141  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4141
+12/29 22:27:43 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:28:21 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:28:21 - mmengine - INFO - Epoch(train)  [43][140/140]  base_lr: 2.2210e-06 lr: 6.9407e-08  eta: 8:05:25  time: 1.8856  data_time: 0.0095  memory: 34228  grad_norm: 599.7819  loss: 0.3117  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3117
+12/29 22:28:45 - mmengine - INFO - Epoch(val) [43][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8096  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 23, 122]])
+  data_time: 0.0119  time: 0.6729
+12/29 22:32:00 - mmengine - INFO - Epoch(train)  [44][100/140]  base_lr: 2.0861e-06 lr: 6.5189e-08  eta: 8:02:14  time: 1.9483  data_time: 0.0097  memory: 34228  grad_norm: 560.3961  loss: 0.3645  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3645
+12/29 22:33:17 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:33:17 - mmengine - INFO - Epoch(train)  [44][140/140]  base_lr: 2.0340e-06 lr: 6.3562e-08  eta: 8:00:54  time: 1.8958  data_time: 0.0095  memory: 34228  grad_norm: 654.0120  loss: 0.3721  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3721
+12/29 22:33:41 - mmengine - INFO - Epoch(val) [44][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8130  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 22, 123]])
+  data_time: 0.0117  time: 0.6739
+12/29 22:36:56 - mmengine - INFO - Epoch(train)  [45][100/140]  base_lr: 1.9087e-06 lr: 5.9647e-08  eta: 7:57:42  time: 1.9526  data_time: 0.0098  memory: 34228  grad_norm: 675.6174  loss: 0.3924  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3924
+12/29 22:38:14 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:38:14 - mmengine - INFO - Epoch(train)  [45][140/140]  base_lr: 1.8606e-06 lr: 5.8144e-08  eta: 7:56:23  time: 1.8978  data_time: 0.0095  memory: 34228  grad_norm: 774.2856  loss: 0.4692  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4692
+12/29 22:38:14 - mmengine - INFO - Saving checkpoint at 45 epochs
+12/29 22:38:40 - mmengine - INFO - Epoch(val) [45][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8063  confusion_matrix/result: 
+tensor([[ 92,  43],
+        [ 10, 135]])
+  data_time: 0.0122  time: 0.6719
+12/29 22:41:54 - mmengine - INFO - Epoch(train)  [46][100/140]  base_lr: 1.7455e-06 lr: 5.4548e-08  eta: 7:53:07  time: 1.9352  data_time: 0.0096  memory: 34228  grad_norm: 712.3406  loss: 0.3087  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3087
+12/29 22:43:10 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:43:10 - mmengine - INFO - Epoch(train)  [46][140/140]  base_lr: 1.7016e-06 lr: 5.3175e-08  eta: 7:51:47  time: 1.8972  data_time: 0.0096  memory: 34228  grad_norm: 797.8909  loss: 0.3770  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3770
+12/29 22:43:34 - mmengine - INFO - Epoch(val) [46][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8091  confusion_matrix/result: 
+tensor([[103,  32],
+        [ 21, 124]])
+  data_time: 0.0116  time: 0.6737
+12/29 22:46:50 - mmengine - INFO - Epoch(train)  [47][100/140]  base_lr: 1.5972e-06 lr: 4.9912e-08  eta: 7:48:36  time: 1.9436  data_time: 0.0095  memory: 34228  grad_norm: 753.9849  loss: 0.3252  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3252
+12/29 22:48:07 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:48:07 - mmengine - INFO - Epoch(train)  [47][140/140]  base_lr: 1.5576e-06 lr: 4.8675e-08  eta: 7:47:16  time: 1.8972  data_time: 0.0094  memory: 34228  grad_norm: 695.9182  loss: 0.3600  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3600
+12/29 22:48:30 - mmengine - INFO - Epoch(val) [47][35/35]    acc/top1: 0.8179  acc/top5: 1.0000  acc/mean1: 0.8157  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 18, 127]])
+  data_time: 0.0117  time: 0.6749
+12/29 22:48:30 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_37.pth is removed
+12/29 22:48:32 - mmengine - INFO - The best checkpoint with 0.8179 acc/top1 at 47 epoch is saved to best_acc_top1_epoch_47.pth.
+12/29 22:51:50 - mmengine - INFO - Epoch(train)  [48][100/140]  base_lr: 1.4642e-06 lr: 4.5757e-08  eta: 7:44:05  time: 1.9499  data_time: 0.0098  memory: 34228  grad_norm: 942.5974  loss: 0.3922  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3922
+12/29 22:53:07 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:53:07 - mmengine - INFO - Epoch(train)  [48][140/140]  base_lr: 1.4291e-06 lr: 4.4661e-08  eta: 7:42:45  time: 1.8951  data_time: 0.0094  memory: 34228  grad_norm: 662.9587  loss: 0.3987  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3987
+12/29 22:53:07 - mmengine - INFO - Saving checkpoint at 48 epochs
+12/29 22:53:33 - mmengine - INFO - Epoch(val) [48][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8029  confusion_matrix/result: 
+tensor([[106,  29],
+        [ 26, 119]])
+  data_time: 0.0118  time: 0.6693
+12/29 22:56:50 - mmengine - INFO - Epoch(train)  [49][100/140]  base_lr: 1.3472e-06 lr: 4.2100e-08  eta: 7:39:34  time: 1.9599  data_time: 0.0098  memory: 34228  grad_norm: 805.5305  loss: 0.3757  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3757
+12/29 22:58:07 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 22:58:07 - mmengine - INFO - Epoch(train)  [49][140/140]  base_lr: 1.3167e-06 lr: 4.1148e-08  eta: 7:38:15  time: 1.8996  data_time: 0.0094  memory: 34228  grad_norm: 610.2952  loss: 0.1855  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.1855
+12/29 22:58:30 - mmengine - INFO - Epoch(val) [49][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8054  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 21, 124]])
+  data_time: 0.0113  time: 0.6721
+12/29 23:01:44 - mmengine - INFO - Epoch(train)  [50][100/140]  base_lr: 1.2466e-06 lr: 3.8955e-08  eta: 7:35:00  time: 1.9385  data_time: 0.0097  memory: 34228  grad_norm: 1199.7047  loss: 0.4986  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4986
+12/29 23:03:01 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:03:01 - mmengine - INFO - Epoch(train)  [50][140/140]  base_lr: 1.2209e-06 lr: 3.8152e-08  eta: 7:33:40  time: 1.8932  data_time: 0.0097  memory: 34228  grad_norm: 1058.4149  loss: 0.4533  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4533
+12/29 23:03:24 - mmengine - INFO - Epoch(val) [50][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8064  confusion_matrix/result: 
+tensor([[106,  29],
+        [ 25, 120]])
+  data_time: 0.0118  time: 0.6705
+12/29 23:06:39 - mmengine - INFO - Epoch(train)  [51][100/140]  base_lr: 1.1627e-06 lr: 3.6335e-08  eta: 7:30:26  time: 1.9387  data_time: 0.0098  memory: 34228  grad_norm: 689.2135  loss: 0.2758  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2758
+12/29 23:07:56 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:07:56 - mmengine - INFO - Epoch(train)  [51][140/140]  base_lr: 1.1419e-06 lr: 3.5684e-08  eta: 7:29:06  time: 1.8921  data_time: 0.0096  memory: 34228  grad_norm: 746.4520  loss: 0.3974  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3974
+12/29 23:07:56 - mmengine - INFO - Saving checkpoint at 51 epochs
+12/29 23:08:22 - mmengine - INFO - Epoch(val) [51][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8135  confusion_matrix/result: 
+tensor([[107,  28],
+        [ 24, 121]])
+  data_time: 0.0117  time: 0.6708
+12/29 23:11:38 - mmengine - INFO - Epoch(train)  [52][100/140]  base_lr: 1.0960e-06 lr: 3.4249e-08  eta: 7:25:54  time: 1.9607  data_time: 0.0098  memory: 34228  grad_norm: 846.7631  loss: 0.3128  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3128
+12/29 23:12:55 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:12:55 - mmengine - INFO - Epoch(train)  [52][140/140]  base_lr: 1.0801e-06 lr: 3.3753e-08  eta: 7:24:36  time: 1.9143  data_time: 0.0095  memory: 34228  grad_norm: 1048.3763  loss: 0.4278  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4278
+12/29 23:13:19 - mmengine - INFO - Epoch(val) [52][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8027  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 25, 120]])
+  data_time: 0.0117  time: 0.6787
+12/29 23:16:35 - mmengine - INFO - Epoch(train)  [53][100/140]  base_lr: 1.0466e-06 lr: 3.2707e-08  eta: 7:21:24  time: 1.9504  data_time: 0.0098  memory: 34228  grad_norm: 527.3016  loss: 0.2860  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2860
+12/29 23:17:52 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:17:52 - mmengine - INFO - Epoch(train)  [53][140/140]  base_lr: 1.0357e-06 lr: 3.2367e-08  eta: 7:20:05  time: 1.8970  data_time: 0.0096  memory: 34228  grad_norm: 881.1069  loss: 0.3223  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3223
+12/29 23:18:16 - mmengine - INFO - Epoch(val) [53][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8061  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 24, 121]])
+  data_time: 0.0117  time: 0.6734
+12/29 23:21:30 - mmengine - INFO - Epoch(train)  [54][100/140]  base_lr: 1.0148e-06 lr: 3.1714e-08  eta: 7:16:50  time: 1.9450  data_time: 0.0096  memory: 34228  grad_norm: 739.6997  loss: 0.2891  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2891
+12/29 23:22:47 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:22:47 - mmengine - INFO - Epoch(train)  [54][140/140]  base_lr: 1.0090e-06 lr: 3.1531e-08  eta: 7:15:31  time: 1.9076  data_time: 0.0094  memory: 34228  grad_norm: 681.5896  loss: 0.3094  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3094
+12/29 23:22:47 - mmengine - INFO - Saving checkpoint at 54 epochs
+12/29 23:23:13 - mmengine - INFO - Epoch(val) [54][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8061  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 24, 121]])
+  data_time: 0.0117  time: 0.6751
+12/29 23:26:29 - mmengine - INFO - Epoch(train)  [55][100/140]  base_lr: 1.0008e-06 lr: 3.1274e-08  eta: 7:12:18  time: 1.9561  data_time: 0.0095  memory: 34228  grad_norm: 638.2869  loss: 0.3588  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3588
+12/29 23:27:46 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:27:46 - mmengine - INFO - Epoch(train)  [55][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 7:10:59  time: 1.8967  data_time: 0.0095  memory: 34228  grad_norm: 802.0273  loss: 0.3018  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3018
+12/29 23:28:09 - mmengine - INFO - Epoch(val) [55][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8096  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 23, 122]])
+  data_time: 0.0116  time: 0.6718
+12/29 23:31:24 - mmengine - INFO - Epoch(train)  [56][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 7:07:45  time: 1.9472  data_time: 0.0092  memory: 34228  grad_norm: 787.8450  loss: 0.2535  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2535
+12/29 23:32:41 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:32:41 - mmengine - INFO - Epoch(train)  [56][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 7:06:26  time: 1.8965  data_time: 0.0089  memory: 34228  grad_norm: 1114.4779  loss: 0.4639  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4639
+12/29 23:33:04 - mmengine - INFO - Epoch(val) [56][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8019  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 22, 123]])
+  data_time: 0.0117  time: 0.6749
+12/29 23:36:21 - mmengine - INFO - Epoch(train)  [57][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 7:03:15  time: 1.9599  data_time: 0.0092  memory: 34228  grad_norm: 882.9395  loss: 0.4175  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4175
+12/29 23:37:38 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:37:38 - mmengine - INFO - Epoch(train)  [57][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 7:01:56  time: 1.8991  data_time: 0.0089  memory: 34228  grad_norm: 611.1563  loss: 0.2404  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2404
+12/29 23:37:38 - mmengine - INFO - Saving checkpoint at 57 epochs
+12/29 23:38:04 - mmengine - INFO - Epoch(val) [57][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8024  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 24, 121]])
+  data_time: 0.0117  time: 0.6720
+12/29 23:38:44 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:41:20 - mmengine - INFO - Epoch(train)  [58][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:58:44  time: 1.9495  data_time: 0.0093  memory: 34228  grad_norm: 704.3713  loss: 0.3245  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3245
+12/29 23:42:37 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:42:37 - mmengine - INFO - Epoch(train)  [58][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:57:24  time: 1.8902  data_time: 0.0092  memory: 34228  grad_norm: 1145.4139  loss: 0.4544  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4544
+12/29 23:43:00 - mmengine - INFO - Epoch(val) [58][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8024  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 24, 121]])
+  data_time: 0.0113  time: 0.6694
+12/29 23:46:16 - mmengine - INFO - Epoch(train)  [59][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:54:11  time: 1.9376  data_time: 0.0093  memory: 34228  grad_norm: 763.1297  loss: 0.3390  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3390
+12/29 23:47:32 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:47:32 - mmengine - INFO - Epoch(train)  [59][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:52:51  time: 1.8913  data_time: 0.0090  memory: 34228  grad_norm: 864.6085  loss: 0.3057  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3057
+12/29 23:47:56 - mmengine - INFO - Epoch(val) [59][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8093  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 22, 123]])
+  data_time: 0.0121  time: 0.6730
+12/29 23:51:11 - mmengine - INFO - Epoch(train)  [60][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:49:38  time: 1.9575  data_time: 0.0092  memory: 34228  grad_norm: 914.9334  loss: 0.3283  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3283
+12/29 23:52:28 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:52:28 - mmengine - INFO - Epoch(train)  [60][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:48:20  time: 1.9084  data_time: 0.0090  memory: 34228  grad_norm: 603.7440  loss: 0.2737  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2737
+12/29 23:52:28 - mmengine - INFO - Saving checkpoint at 60 epochs
+12/29 23:52:55 - mmengine - INFO - Epoch(val) [60][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8135  confusion_matrix/result: 
+tensor([[107,  28],
+        [ 24, 121]])
+  data_time: 0.0118  time: 0.6746
+12/29 23:56:11 - mmengine - INFO - Epoch(train)  [61][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:45:07  time: 1.9599  data_time: 0.0094  memory: 34228  grad_norm: 630.7663  loss: 0.2867  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2867
+12/29 23:57:28 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/29 23:57:28 - mmengine - INFO - Epoch(train)  [61][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:43:49  time: 1.9141  data_time: 0.0091  memory: 34228  grad_norm: 844.7873  loss: 0.4808  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4808
+12/29 23:57:52 - mmengine - INFO - Epoch(val) [61][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8093  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 22, 123]])
+  data_time: 0.0116  time: 0.6793
+12/30 00:01:08 - mmengine - INFO - Epoch(train)  [62][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:40:37  time: 1.9637  data_time: 0.0093  memory: 34228  grad_norm: 826.8255  loss: 0.3181  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3181
+12/30 00:02:26 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:02:26 - mmengine - INFO - Epoch(train)  [62][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:39:19  time: 1.9124  data_time: 0.0090  memory: 34228  grad_norm: 811.6346  loss: 0.3007  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3007
+12/30 00:02:49 - mmengine - INFO - Epoch(val) [62][35/35]    acc/top1: 0.8250  acc/top5: 1.0000  acc/mean1: 0.8221  confusion_matrix/result: 
+tensor([[100,  35],
+        [ 14, 131]])
+  data_time: 0.0117  time: 0.6765
+12/30 00:02:49 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_47.pth is removed
+12/30 00:02:50 - mmengine - INFO - The best checkpoint with 0.8250 acc/top1 at 62 epoch is saved to best_acc_top1_epoch_62.pth.
+12/30 00:06:08 - mmengine - INFO - Epoch(train)  [63][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:36:04  time: 1.9421  data_time: 0.0091  memory: 34228  grad_norm: 768.7869  loss: 0.3882  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3882
+12/30 00:07:24 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:07:24 - mmengine - INFO - Epoch(train)  [63][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:34:45  time: 1.8926  data_time: 0.0090  memory: 34228  grad_norm: 882.1788  loss: 0.2935  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2935
+12/30 00:07:24 - mmengine - INFO - Saving checkpoint at 63 epochs
+12/30 00:07:51 - mmengine - INFO - Epoch(val) [63][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8096  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 23, 122]])
+  data_time: 0.0117  time: 0.6717
+12/30 00:11:06 - mmengine - INFO - Epoch(train)  [64][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:31:32  time: 1.9472  data_time: 0.0090  memory: 34228  grad_norm: 749.4626  loss: 0.3346  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3346
+12/30 00:12:23 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:12:23 - mmengine - INFO - Epoch(train)  [64][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:30:13  time: 1.9008  data_time: 0.0090  memory: 34228  grad_norm: 762.6912  loss: 0.3784  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3784
+12/30 00:12:47 - mmengine - INFO - Epoch(val) [64][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8123  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 19, 126]])
+  data_time: 0.0115  time: 0.6734
+12/30 00:14:04 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:16:01 - mmengine - INFO - Epoch(train)  [65][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:26:58  time: 1.9426  data_time: 0.0093  memory: 34228  grad_norm: 792.9788  loss: 0.2862  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2862
+12/30 00:17:18 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:17:18 - mmengine - INFO - Epoch(train)  [65][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:25:39  time: 1.8972  data_time: 0.0091  memory: 34228  grad_norm: 1118.0897  loss: 0.3904  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3904
+12/30 00:17:41 - mmengine - INFO - Epoch(val) [65][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8059  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 23, 122]])
+  data_time: 0.0117  time: 0.6781
+12/30 00:20:58 - mmengine - INFO - Epoch(train)  [66][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:22:27  time: 1.9496  data_time: 0.0092  memory: 34228  grad_norm: 721.5281  loss: 0.2928  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2928
+12/30 00:22:15 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:22:15 - mmengine - INFO - Epoch(train)  [66][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:21:08  time: 1.8967  data_time: 0.0089  memory: 34228  grad_norm: 718.5858  loss: 0.3940  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3940
+12/30 00:22:15 - mmengine - INFO - Saving checkpoint at 66 epochs
+12/30 00:22:41 - mmengine - INFO - Epoch(val) [66][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8059  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 23, 122]])
+  data_time: 0.0114  time: 0.6704
+12/30 00:25:56 - mmengine - INFO - Epoch(train)  [67][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:17:55  time: 1.9385  data_time: 0.0092  memory: 34228  grad_norm: 726.3382  loss: 0.2817  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2817
+12/30 00:27:13 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:27:13 - mmengine - INFO - Epoch(train)  [67][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:16:35  time: 1.8872  data_time: 0.0092  memory: 34228  grad_norm: 708.3673  loss: 0.3520  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3520
+12/30 00:27:36 - mmengine - INFO - Epoch(val) [67][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8130  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 22, 123]])
+  data_time: 0.0112  time: 0.6672
+12/30 00:30:51 - mmengine - INFO - Epoch(train)  [68][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:13:21  time: 1.9437  data_time: 0.0093  memory: 34228  grad_norm: 754.0280  loss: 0.3116  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3116
+12/30 00:32:08 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:32:08 - mmengine - INFO - Epoch(train)  [68][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:12:02  time: 1.8940  data_time: 0.0091  memory: 34228  grad_norm: 841.6119  loss: 0.3278  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3278
+12/30 00:32:31 - mmengine - INFO - Epoch(val) [68][35/35]    acc/top1: 0.8071  acc/top5: 1.0000  acc/mean1: 0.8054  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 21, 124]])
+  data_time: 0.0123  time: 0.6729
+12/30 00:35:47 - mmengine - INFO - Epoch(train)  [69][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:08:49  time: 1.9506  data_time: 0.0092  memory: 34228  grad_norm: 804.2833  loss: 0.4215  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.4215
+12/30 00:37:04 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:37:04 - mmengine - INFO - Epoch(train)  [69][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:07:30  time: 1.8981  data_time: 0.0090  memory: 34228  grad_norm: 765.0493  loss: 0.3615  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3615
+12/30 00:37:04 - mmengine - INFO - Saving checkpoint at 69 epochs
+12/30 00:37:30 - mmengine - INFO - Epoch(val) [69][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8128  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 21, 124]])
+  data_time: 0.0118  time: 0.6760
+12/30 00:40:47 - mmengine - INFO - Epoch(train)  [70][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:04:18  time: 1.9503  data_time: 0.0092  memory: 34228  grad_norm: 624.7276  loss: 0.3127  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3127
+12/30 00:42:03 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:42:03 - mmengine - INFO - Epoch(train)  [70][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 6:02:59  time: 1.8925  data_time: 0.0090  memory: 34228  grad_norm: 807.4977  loss: 0.3997  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3997
+12/30 00:42:27 - mmengine - INFO - Epoch(val) [70][35/35]    acc/top1: 0.8286  acc/top5: 1.0000  acc/mean1: 0.8258  confusion_matrix/result: 
+tensor([[101,  34],
+        [ 14, 131]])
+  data_time: 0.0117  time: 0.6732
+12/30 00:42:27 - mmengine - INFO - The previous best checkpoint /mimer/NOBACKUP/groups/ulio_inverse/human-fall-detection/michail/experiments/mmaction2/work_dirs/UNI_25_RFDS/best_acc_top1_epoch_62.pth is removed
+12/30 00:42:28 - mmengine - INFO - The best checkpoint with 0.8286 acc/top1 at 70 epoch is saved to best_acc_top1_epoch_70.pth.
+12/30 00:45:45 - mmengine - INFO - Epoch(train)  [71][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:59:44  time: 1.9493  data_time: 0.0091  memory: 34228  grad_norm: 740.4279  loss: 0.2597  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2597
+12/30 00:47:03 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:47:03 - mmengine - INFO - Epoch(train)  [71][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:58:26  time: 1.9204  data_time: 0.0089  memory: 34228  grad_norm: 608.4826  loss: 0.2987  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2987
+12/30 00:47:27 - mmengine - INFO - Epoch(val) [71][35/35]    acc/top1: 0.8250  acc/top5: 1.0000  acc/mean1: 0.8229  confusion_matrix/result: 
+tensor([[103,  32],
+        [ 17, 128]])
+  data_time: 0.0116  time: 0.6809
+12/30 00:49:24 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:50:42 - mmengine - INFO - Epoch(train)  [72][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:55:13  time: 1.9472  data_time: 0.0091  memory: 34228  grad_norm: 866.4404  loss: 0.3498  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3498
+12/30 00:51:59 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:51:59 - mmengine - INFO - Epoch(train)  [72][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:53:54  time: 1.9019  data_time: 0.0090  memory: 34228  grad_norm: 1048.2699  loss: 0.4298  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4298
+12/30 00:51:59 - mmengine - INFO - Saving checkpoint at 72 epochs
+12/30 00:52:25 - mmengine - INFO - Epoch(val) [72][35/35]    acc/top1: 0.8286  acc/top5: 1.0000  acc/mean1: 0.8261  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 15, 130]])
+  data_time: 0.0117  time: 0.6704
+12/30 00:55:40 - mmengine - INFO - Epoch(train)  [73][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:50:40  time: 1.9329  data_time: 0.0090  memory: 34228  grad_norm: 1042.7229  loss: 0.3565  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3565
+12/30 00:56:56 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 00:56:56 - mmengine - INFO - Epoch(train)  [73][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:49:21  time: 1.8884  data_time: 0.0090  memory: 34228  grad_norm: 778.3711  loss: 0.2577  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2577
+12/30 00:57:20 - mmengine - INFO - Epoch(val) [73][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8096  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 23, 122]])
+  data_time: 0.0118  time: 0.6704
+12/30 01:00:34 - mmengine - INFO - Epoch(train)  [74][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:46:06  time: 1.9490  data_time: 0.0094  memory: 34228  grad_norm: 840.7914  loss: 0.2951  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2951
+12/30 01:01:52 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:01:52 - mmengine - INFO - Epoch(train)  [74][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:44:48  time: 1.9009  data_time: 0.0090  memory: 34228  grad_norm: 869.5324  loss: 0.3533  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3533
+12/30 01:02:15 - mmengine - INFO - Epoch(val) [74][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8130  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 22, 123]])
+  data_time: 0.0116  time: 0.6751
+12/30 01:05:31 - mmengine - INFO - Epoch(train)  [75][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:41:34  time: 1.9381  data_time: 0.0093  memory: 34228  grad_norm: 934.7067  loss: 0.4333  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.4333
+12/30 01:06:47 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:06:47 - mmengine - INFO - Epoch(train)  [75][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:40:15  time: 1.8821  data_time: 0.0091  memory: 34228  grad_norm: 771.5354  loss: 0.3573  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3573
+12/30 01:06:47 - mmengine - INFO - Saving checkpoint at 75 epochs
+12/30 01:07:13 - mmengine - INFO - Epoch(val) [75][35/35]    acc/top1: 0.8250  acc/top5: 1.0000  acc/mean1: 0.8231  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 18, 127]])
+  data_time: 0.0112  time: 0.6659
+12/30 01:10:28 - mmengine - INFO - Epoch(train)  [76][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:37:01  time: 1.9491  data_time: 0.0093  memory: 34228  grad_norm: 690.2966  loss: 0.3331  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3331
+12/30 01:11:45 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:11:45 - mmengine - INFO - Epoch(train)  [76][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:35:42  time: 1.8868  data_time: 0.0092  memory: 34228  grad_norm: 1077.2207  loss: 0.3369  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3369
+12/30 01:12:08 - mmengine - INFO - Epoch(val) [76][35/35]    acc/top1: 0.8179  acc/top5: 1.0000  acc/mean1: 0.8157  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 18, 127]])
+  data_time: 0.0118  time: 0.6732
+12/30 01:15:24 - mmengine - INFO - Epoch(train)  [77][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:32:29  time: 1.9491  data_time: 0.0093  memory: 34228  grad_norm: 950.6359  loss: 0.2931  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.2931
+12/30 01:16:41 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:16:41 - mmengine - INFO - Epoch(train)  [77][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:31:10  time: 1.8979  data_time: 0.0091  memory: 34228  grad_norm: 956.3186  loss: 0.4629  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.4629
+12/30 01:17:04 - mmengine - INFO - Epoch(val) [77][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8103  confusion_matrix/result: 
+tensor([[108,  27],
+        [ 26, 119]])
+  data_time: 0.0117  time: 0.6729
+12/30 01:20:20 - mmengine - INFO - Epoch(train)  [78][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:27:57  time: 1.9518  data_time: 0.0093  memory: 34228  grad_norm: 959.1954  loss: 0.3202  top1_acc: 0.8750  top5_acc: 1.0000  loss_cls: 0.3202
+12/30 01:21:37 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:21:37 - mmengine - INFO - Epoch(train)  [78][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:26:38  time: 1.8987  data_time: 0.0090  memory: 34228  grad_norm: 899.8903  loss: 0.3453  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3453
+12/30 01:21:37 - mmengine - INFO - Saving checkpoint at 78 epochs
+12/30 01:22:03 - mmengine - INFO - Epoch(val) [78][35/35]    acc/top1: 0.8107  acc/top5: 1.0000  acc/mean1: 0.8088  confusion_matrix/result: 
+tensor([[102,  33],
+        [ 20, 125]])
+  data_time: 0.0116  time: 0.6725
+12/30 01:24:39 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:25:18 - mmengine - INFO - Epoch(train)  [79][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:23:25  time: 1.9599  data_time: 0.0093  memory: 34228  grad_norm: 1049.5207  loss: 0.4310  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.4310
+12/30 01:26:36 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:26:36 - mmengine - INFO - Epoch(train)  [79][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:22:07  time: 1.9141  data_time: 0.0091  memory: 34228  grad_norm: 1043.8899  loss: 0.3641  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3641
+12/30 01:27:00 - mmengine - INFO - Epoch(val) [79][35/35]    acc/top1: 0.8143  acc/top5: 1.0000  acc/mean1: 0.8130  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 22, 123]])
+  data_time: 0.0117  time: 0.6755
+12/30 01:30:14 - mmengine - INFO - Epoch(train)  [80][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:18:52  time: 1.9445  data_time: 0.0092  memory: 34228  grad_norm: 867.5005  loss: 0.3442  top1_acc: 0.6250  top5_acc: 1.0000  loss_cls: 0.3442
+12/30 01:31:31 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:31:31 - mmengine - INFO - Epoch(train)  [80][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:17:34  time: 1.9097  data_time: 0.0090  memory: 34228  grad_norm: 891.9009  loss: 0.3514  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3514
+12/30 01:31:55 - mmengine - INFO - Epoch(val) [80][35/35]    acc/top1: 0.8214  acc/top5: 1.0000  acc/mean1: 0.8197  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 19, 126]])
+  data_time: 0.0116  time: 0.6767
+12/30 01:35:09 - mmengine - INFO - Epoch(train)  [81][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:14:19  time: 1.9405  data_time: 0.0090  memory: 34228  grad_norm: 843.9831  loss: 0.3573  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3573
+12/30 01:36:26 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:36:26 - mmengine - INFO - Epoch(train)  [81][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:13:01  time: 1.8980  data_time: 0.0090  memory: 34228  grad_norm: 883.1948  loss: 0.2943  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2943
+12/30 01:36:26 - mmengine - INFO - Saving checkpoint at 81 epochs
+12/30 01:36:53 - mmengine - INFO - Epoch(val) [81][35/35]    acc/top1: 0.8286  acc/top5: 1.0000  acc/mean1: 0.8266  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 17, 128]])
+  data_time: 0.0117  time: 0.6741
+12/30 01:40:08 - mmengine - INFO - Epoch(train)  [82][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:09:47  time: 1.9510  data_time: 0.0093  memory: 34228  grad_norm: 1033.5003  loss: 0.3888  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3888
+12/30 01:41:25 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:41:25 - mmengine - INFO - Epoch(train)  [82][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:08:29  time: 1.9081  data_time: 0.0091  memory: 34228  grad_norm: 1140.1839  loss: 0.3477  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.3477
+12/30 01:41:49 - mmengine - INFO - Epoch(val) [82][35/35]    acc/top1: 0.8214  acc/top5: 1.0000  acc/mean1: 0.8197  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 19, 126]])
+  data_time: 0.0116  time: 0.6756
+12/30 01:45:04 - mmengine - INFO - Epoch(train)  [83][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:05:15  time: 1.9373  data_time: 0.0092  memory: 34228  grad_norm: 1149.6199  loss: 0.4025  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.4025
+12/30 01:46:20 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:46:20 - mmengine - INFO - Epoch(train)  [83][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:03:56  time: 1.8900  data_time: 0.0089  memory: 34228  grad_norm: 534.5477  loss: 0.2585  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2585
+12/30 01:46:44 - mmengine - INFO - Epoch(val) [83][35/35]    acc/top1: 0.8036  acc/top5: 1.0000  acc/mean1: 0.8027  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 25, 120]])
+  data_time: 0.0113  time: 0.6704
+12/30 01:50:00 - mmengine - INFO - Epoch(train)  [84][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 5:00:43  time: 1.9477  data_time: 0.0093  memory: 34228  grad_norm: 831.1769  loss: 0.2244  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2244
+12/30 01:51:16 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:51:16 - mmengine - INFO - Epoch(train)  [84][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 4:59:24  time: 1.8876  data_time: 0.0092  memory: 34228  grad_norm: 771.0161  loss: 0.3418  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3418
+12/30 01:51:16 - mmengine - INFO - Saving checkpoint at 84 epochs
+12/30 01:51:42 - mmengine - INFO - Epoch(val) [84][35/35]    acc/top1: 0.8250  acc/top5: 1.0000  acc/mean1: 0.8229  confusion_matrix/result: 
+tensor([[103,  32],
+        [ 17, 128]])
+  data_time: 0.0113  time: 0.6681
+12/30 01:54:57 - mmengine - INFO - Epoch(train)  [85][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 4:56:10  time: 1.9415  data_time: 0.0094  memory: 34228  grad_norm: 908.5241  loss: 0.3388  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3388
+12/30 01:56:14 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:56:14 - mmengine - INFO - Epoch(train)  [85][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 4:54:51  time: 1.8965  data_time: 0.0090  memory: 34228  grad_norm: 704.7662  loss: 0.2877  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.2877
+12/30 01:56:37 - mmengine - INFO - Epoch(val) [85][35/35]    acc/top1: 0.8000  acc/top5: 1.0000  acc/mean1: 0.7990  confusion_matrix/result: 
+tensor([[104,  31],
+        [ 25, 120]])
+  data_time: 0.0119  time: 0.6753
+12/30 01:59:53 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 01:59:53 - mmengine - INFO - Epoch(train)  [86][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 4:51:37  time: 1.9455  data_time: 0.0092  memory: 34228  grad_norm: 895.4915  loss: 0.3365  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.3365
+12/30 02:01:09 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 02:01:09 - mmengine - INFO - Epoch(train)  [86][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 4:50:19  time: 1.8841  data_time: 0.0090  memory: 34228  grad_norm: 850.2762  loss: 0.4529  top1_acc: 0.5000  top5_acc: 1.0000  loss_cls: 0.4529
+12/30 02:01:33 - mmengine - INFO - Epoch(val) [86][35/35]    acc/top1: 0.8214  acc/top5: 1.0000  acc/mean1: 0.8199  confusion_matrix/result: 
+tensor([[105,  30],
+        [ 20, 125]])
+  data_time: 0.0118  time: 0.6693
+12/30 02:04:47 - mmengine - INFO - Epoch(train)  [87][100/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 4:47:05  time: 1.9412  data_time: 0.0093  memory: 34228  grad_norm: 694.4840  loss: 0.2815  top1_acc: 1.0000  top5_acc: 1.0000  loss_cls: 0.2815
+12/30 02:06:04 - mmengine - INFO - Exp name: UNI_25_RFDS_20241229_185447
+12/30 02:06:04 - mmengine - INFO - Epoch(train)  [87][140/140]  base_lr: 1.0000e-06 lr: 3.1250e-08  eta: 4:45:46  time: 1.8966  data_time: 0.0090  memory: 34228  grad_norm: 609.3269  loss: 0.3073  top1_acc: 0.7500  top5_acc: 1.0000  loss_cls: 0.3073
+12/30 02:06:04 - mmengine - INFO - Saving checkpoint at 87 epochs
+12/30 02:06:31 - mmengine - INFO - Epoch(val) [87][35/35]    acc/top1: 0.8214  acc/top5: 1.0000  acc/mean1: 0.8202  confusion_matrix/result: 
+tensor([[106,  29],
+        [ 21, 124]])
+  data_time: 0.0117  time: 0.6707
+12/30 02:06:31 - mmengine - INFO - the monitored metric did not improve in the last 25 records. best score: 0.825. 
