@@ -1,3 +1,5 @@
+# Contributed by Tomas Grahn
+
 import os
 import torch
 import torch.optim as optim

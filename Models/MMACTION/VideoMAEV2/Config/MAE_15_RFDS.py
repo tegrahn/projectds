@@ -1,3 +1,4 @@
+# Contributed by Michail Bakalianos and Georgios Tsouderos
 _base_ = ['../../_base_/default_runtime.py']
 
 # DATASETS

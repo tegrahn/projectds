@@ -1,3 +1,4 @@
+# Contributed by Georgios Tsouderos and Michail Bakalianos
 default_scope = 'mmaction'
 default_hooks = dict(
     runtime_info=dict(type='RuntimeInfoHook'),
@@ -7,6 +8,7 @@ default_hooks = dict(
     sampler_seed=dict(type='DistSamplerSeedHook'),
     sync_buffers=dict(type='SyncBuffersHook'),
     early_stopping=dict(type='EarlyStoppingHook',monitor='acc/top1',patience=25,min_delta=0.005,rule='greater'),
+    #early_stopping=dict(type='EarlyStoppingHook',monitor='acc/top1',patience=50,min_delta=0.005,rule='greater'),
     checkpoint=dict(type='CheckpointHook',save_best='auto', interval=1,max_keep_ckpts=3))
 
 env_cfg = dict(
