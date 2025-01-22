@@ -1,5 +1,8 @@
 # Human Based Fall Detection
-Analysing differing clip lengths impact on model performance utilising multiple datasets and multiple models
+Analysing differing clip lengths impact on model performance utilising multiple datasets and multiple models.
+
+A detailed report could be found in REPORT.pdf file.
+
 
 ## Models & Datasets
 ### Generating Data
